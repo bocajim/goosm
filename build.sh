@@ -35,16 +35,25 @@ if [ ! -d "src/labix.org/v2/mgo" ]; then
 fi
 
 function build {
-	echo "Building: dwopen"
+	echo "Building: goosm"
 	if [ -d "pkg" ]; then
     	rm -Rf pkg/*
 	fi
 	go install src/goosm.go
 }
 
+function build_for_linux {
+	echo "Building 64bit Linux goosm"
+	export GOOS=linux
+	build
+}
+
 case $1 in
 	"build")
 		build
+		;;
+	"linux")
+		build_for_linux
 		;;
 	*)
 		build
