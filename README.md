@@ -20,8 +20,12 @@ goosm
 
 ### Running
 
-* Arguments
-** -f <osm file to read>
-** -s <mongo server:port to connect to> (127.0.0.1:27017 default)
-** -db <name of mongodb database>
+* -f <osm file to read>
+* -s <mongo server:port to connect to> (127.0.0.1:27017 default)
+* -db <name of mongodb database> (osm default)
 
+### Examples
+
+goosm -f miami.osm
+goosm -f miami.osm -db foo
+goosm -f miami.osm -s 127.0.0.1:27017
