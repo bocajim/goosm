@@ -20,6 +20,7 @@ var insertChan chan interface{}
 var excludeMap map[string]bool
 var highwayFilterMap map[string]bool
 var excludeCount int64
+var onlyRoads = flag.Bool("onlyRoads", true, "Import only roads, ignore other data (eg railways, water, etc).")
 
 //   <node id="2031042144" version="1" timestamp="2012-11-24T23:19:36Z" uid="560392" user="HostedDinner" changeset="14021355" lat="25.5805168" lon="-80.3562449"/>
 type OsmNode struct {
@@ -85,19 +86,22 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	
 	excludeMap = make(map[string]bool)
-	excludeMap["natural"]=true
-	excludeMap["amenity"]=true
-	excludeMap["building"]=true
-	excludeMap["landuse"]=true
-	excludeMap["waterway"]=true
-	excludeMap["leisure"]=true
-	excludeMap["railway"]=true
-	excludeMap["power"]=true
-	
 	highwayFilterMap = make(map[string]bool)
-	highwayFilterMap["service"]=true
-	highwayFilterMap["footway"]=true
-	highwayFilterMap["path"]=true
+		
+	if onlyRoads==nil || *onlyRoads {
+		excludeMap["natural"]=true
+		excludeMap["amenity"]=true
+		excludeMap["building"]=true
+		excludeMap["landuse"]=true
+		excludeMap["waterway"]=true
+		excludeMap["leisure"]=true
+		excludeMap["railway"]=true
+		excludeMap["power"]=true
+		
+		highwayFilterMap["service"]=true
+		highwayFilterMap["footway"]=true
+		highwayFilterMap["path"]=true
+	}
 	
 
 	mongoSession, err = mgo.Dial(*mongoAddr)
