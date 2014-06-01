@@ -111,8 +111,8 @@ func main() {
 	
 	log.Println("Preparing database & collections...")
 	
-	mongoSession.DB(*mongoDbName+"_nodes").DropDatabase()
-	mongoSession.DB(*mongoDbName+"_ways").DropDatabase()
+	//mongoSession.DB(*mongoDbName+"_nodes").DropDatabase()
+	//mongoSession.DB(*mongoDbName+"_ways").DropDatabase()
 	
 	mongoSession.DB(*mongoDbName+"_nodes").C("data").EnsureIndex(index)
 	mongoSession.DB(*mongoDbName+"_ways").C("data").EnsureIndex(index)
