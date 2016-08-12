@@ -11,6 +11,7 @@ goosm
 
 ### Pre-requisites
 * Must have go installed.
+* Must have bzr installed
 * Must be able to run shell scripts.
 * Must have internet access to download dependencies (via HTTPS).
 
@@ -20,12 +21,14 @@ goosm
 
 ### Running
 
-* -f <osm file to read>
-* -s <mongo server:port to connect to> (127.0.0.1:27017 default)
-* -db <name of mongodb database> (osm default)
+* -f \<osm file to read\>
+* -s \<mongo server:port to connect to\> (127.0.0.1:27017 default)
+* -db \<name of mongodb database\> (osm default)
 
 ### Examples
 
-goosm -f miami.osm
-goosm -f miami.osm -db foo
-goosm -f miami.osm -s 127.0.0.1:27017
+    goosm -f miami.osm
+
+    goosm -f miami.osm -db foo
+
+    goosm -f miami.osm -s 127.0.0.1:27017
