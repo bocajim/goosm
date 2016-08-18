@@ -210,7 +210,7 @@ func goInsert() {
 				o.Loc.Coordinates = make([][]float64,0,len(o.Nds))
 				o.Nodes = (make([]int64,0,len(o.Nds)))
 				for _, nid := range o.Nds {
-					if  sess.DB(*mongoDbName+"_nodes").C("data").FindId(nid.Id).One(&n)==nil {
+					if  sess.DB(*mongoDbName).C("nodes").FindId(nid.Id).One(&n)==nil {
 						o.Loc.Coordinates = append(o.Loc.Coordinates,[]float64{n.Loc.Coordinates[0],n.Loc.Coordinates[1]})
 					}
 					o.Nodes = append(o.Nodes,nid.Id)
