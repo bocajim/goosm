@@ -75,7 +75,7 @@ type OsmWay struct {
 	} `bson:"-" xml:"tag"`
 	Nds []struct {
 		Id int64 `bson:"-" xml:"ref,attr"`
-	} `bson:"-"         xml:"nd"`
+	} `bson:"nodes"         xml:"nd"`
 }
 
 func main() {
@@ -118,7 +118,7 @@ func main() {
 	//mongoSession.DB(*mongoDbName+"_nodes").DropDatabase()
 	//mongoSession.DB(*mongoDbName+"_ways").DropDatabase()
 	
-	mongoSession.DB(*mongoDbName+"_nodes").C("data").EnsureIndex(index)
+//	mongoSession.DB(*mongoDbName+"_nodes").C("data").EnsureIndex(index)
 	mongoSession.DB(*mongoDbName+"_ways").C("data").EnsureIndex(index)
 
 	file, err := os.Open(*fileName)
@@ -198,12 +198,7 @@ func goInsert() {
 		case i := <-insertChan:
 			switch o := i.(type) {
 			case OsmNode:
-				o.Loc.Type = "Point"
-				o.Loc.Coordinates = []float64{o.Lng, o.Lat}
-				err := sess.DB(*mongoDbName+"_nodes").C("data").Insert(o)
-				if err != nil {
-					log.Println(err.Error())
-				}
+				// don't really care about nodes
 			case OsmWay:
 				var n OsmNode
 				exclude := false
