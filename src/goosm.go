@@ -116,11 +116,9 @@ func main() {
 	
 	log.Println("Preparing database & collections...")
 	
-	//mongoSession.DB(*mongoDbName+"_nodes").DropDatabase()
-	//mongoSession.DB(*mongoDbName+"_ways").DropDatabase()
+	mongoSession.DB(*mongoDbName).DropDatabase()
 	
-//	mongoSession.DB(*mongoDbName+"_nodes").C("data").EnsureIndex(index)
-	mongoSession.DB(*mongoDbName+"_ways").C("data").EnsureIndex(index)
+	mongoSession.DB(*mongoDbName).C("ways").EnsureIndex(index)
 
 	file, err := os.Open(*fileName)
 	if err != nil {
@@ -201,7 +199,7 @@ func goInsert() {
 			case OsmNode:
 				o.Loc.Type = "Point"
  				o.Loc.Coordinates = []float64{o.Lng, o.Lat}
-				err := sess.DB(*mongoDbName+"_nodes").C("data").Insert(o)
+				err := sess.DB(*mongoDbName).C("nodes").Insert(o)
  				if err != nil {
  					log.Println(err.Error())
  				}
@@ -242,7 +240,7 @@ func goInsert() {
 					continue
 				}
 				
-				err :=  sess.DB(*mongoDbName+"_ways").C("data").Insert(o)
+				err :=  sess.DB(*mongoDbName).C("ways").Insert(o)
 				if err != nil {
 					log.Println(err.Error())
 				}
