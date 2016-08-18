@@ -75,7 +75,8 @@ type OsmWay struct {
 	} `bson:"-" xml:"tag"`
 	Nds []struct {
 		Id int64 `bson:"-" xml:"ref,attr"`
-	} `bson:"nodes"         xml:"nd"`
+	} `bson:"-"         xml:"nd"`
+	Nodes []int64 `bson:"nodes"`
 }
 
 func main() {
@@ -198,17 +199,23 @@ func goInsert() {
 		case i := <-insertChan:
 			switch o := i.(type) {
 			case OsmNode:
-				// don't really care about nodes
+				o.Loc.Type = "Point"
+ 				o.Loc.Coordinates = []float64{o.Lng, o.Lat}
+				err := sess.DB(*mongoDbName+"_nodes").C("data").Insert(o)
+ 				if err != nil {
+ 					log.Println(err.Error())
+ 				}
 			case OsmWay:
 				var n OsmNode
 				exclude := false
 				o.Loc.Type = "LineString"
 				o.Loc.Coordinates = make([][]float64,0,len(o.Nds))
-
+				o.Nodes = (make([]int64,0,len(o.Nds)))
 				for _, nid := range o.Nds {
 					if  sess.DB(*mongoDbName+"_nodes").C("data").FindId(nid.Id).One(&n)==nil {
 						o.Loc.Coordinates = append(o.Loc.Coordinates,[]float64{n.Loc.Coordinates[0],n.Loc.Coordinates[1]})
 					}
+					o.Nodes = append(o.Nodes,nid.Id)
 				}
 				if len(o.Loc.Coordinates)<=1 {
 					exclude = true
