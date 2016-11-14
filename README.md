@@ -1,6 +1,9 @@
 goosm
 =====
 
+[![Build Status](https://travis-ci.org/bocajim/goosm.svg?branch=master)](https://travis-ci.org/bocajim/goosm)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bocajim/goosm)](https://goreportcard.com/report/github.com/bocajim/goosm)
+
 ## Overview
 "goosm" is a simple tool that reads Open Street Map XML files and imports them into MongoDB with proper geo-spatial indicies.
 
